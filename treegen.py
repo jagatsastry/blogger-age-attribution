@@ -17,9 +17,13 @@ def getTrees(post):
 blog_dir = sys.argv[1] #"blogs/sample_blogs"
 treebanks_dir = "treebanks"
 postsmap = readPosts(blog_dir, 0)
-treebank = open(treebanks_dir + "/" + os.path.basename(blog_dir) + ".tb", "w")
 
+postnum = 0
 for post in postsmap[0]:
+    treebank = open(treebanks_dir + "/" + os.path.split(os.path.normpath(blog_dir))[1] + "." + str(postnum) + ".tb", "w")
+
+    postnum = postnum + 1
     for tree in getTrees(post):
         treebank.write(str(tree) + "\n")
+    treebank.close()
 
