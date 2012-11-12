@@ -6,18 +6,25 @@ def readPosts(dirname, index):
     postmap = [[], [], [], []]
     for filename in os.listdir(dirname):
         #filename = "3776017.female.17.Student.Libra.xml"
-        xmlfile = open(dirname + "/" + filename)
-        print "Handling " + filename
-        data = parse(xmlfile)
+        filepath = dirname + "/" + filename
 
-        postsDom = data.getElementsByTagName("post")
-        posts = [post.firstChild.data for post in postsDom]
-        for elem in posts:
-            postmap[index].append(elem.strip())
+        posts = getPostsFromFile(filepath)
+        postmap[index] = postmap[index] + posts
     return postmap
+
+
+def getPostsFromFile(filepath):
+    posts = []
+    xmlfile = open(filepath)
+    print "Handling " + filepath
+    filestring = xmlfile.read()
+    temparr = filestring.split("<post>")[1:]
+    for temp in temparr:
+        posts.append(temp.split("</post>")[0].strip())
+    
+    return posts
         
-
-
+if __name__ == '__main__': print readPosts("blogs/sample_blogs", 0)
 #readPosts("blogs/sample_blogs", 0)
 #readPosts("blogs/20s", 1)
 #readPosts("blogs/3040s", 2)
