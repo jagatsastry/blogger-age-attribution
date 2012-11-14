@@ -1,6 +1,7 @@
 import glob
 from math import log
 import os
+import os.path
 
 dirname = "fragments"
 docFreqMap = {} #Frag Index -> Count of blogposts
@@ -9,9 +10,13 @@ fragmentMap = {} #Fragment -> Integer index
 featureMap = {}  #Filename -> [(fragIndex, value)]
 
 featIndex = 1
-for filepath in glob.glob(dirname + "/*.frag"):
-    filename = os.path.basename(filepath)
-    featureMap[filename] = []
+
+files = glob.glob(dirname + "/*.1*frag") + glob.glob(dirname + "/*.2*frag") + \
+        glob.glob(dirname + "/*.3*frag") + glob.glob(dirname + "/*.4*.frag")
+for i in range(len(files)):
+    filepath = files[i]
+    sequencedFilename = str(i+100) + "_" +  os.path.basename(filepath)
+    featureMap[sequencedFilename] = []
     
     fragConsidered = {}
     for line in open(filepath):
@@ -23,7 +28,7 @@ for filepath in glob.glob(dirname + "/*.frag"):
             featIndex = featIndex + 1
         
         fragHash = fragmentMap[frag]
-        featureMap[filename].append((fragHash, count))
+        featureMap[sequencedFilename].append((fragHash, count))
 
         if fragHash not in docFreqMap:
             docFreqMap[fragHash] = 1
@@ -45,15 +50,18 @@ def getLabel(filename):
         return 3
     assert(False)
 
-'''hello'''    
 numDoc = len(featureMap)
-for filename in featureMap:
+for filename in sorted(featureMap):
     label = getLabel(filename)
     features = sorted(featureMap[filename])
     
     print label,
     for (feature, value) in features:
         normalizedValue = float(value) * log( float(numDoc)/(float(docFreqMap[feature]) + 1))
-        print "  " + str(feature) + ":" + str(normalizedValue),
-    print ""
+#        print "  " + str(feature) + ":" + str(normalizedValue),
+#    print ""
 
+
+#print featureMap
+
+#if __name__ == "__main__": print
