@@ -21,6 +21,7 @@ for line in open(svmfile):
     featHashes.append(featHashMap)
 
 features = []
+#print maxfeatnum
 for i in range(len(labels)):
     feature = []
     featHashMap = featHashes[i]

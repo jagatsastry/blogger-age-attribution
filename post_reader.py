@@ -7,7 +7,7 @@ from random import shuffle
 def readPosts(dirname, index):
     postmap = {}
     print "Reading all posts from " + dirname
-    allPosts = glob.glob(dirname + "/*xml") # sample(glob.glob(dirname + "/*female*xml"), 50) + sample(glob.glob(dirname + "/*.male*xml"), 50)
+    allPosts = glob.glob(dirname + "/*.female*xml") # sample(glob.glob(dirname + "/*female*xml"), 50) + sample(glob.glob(dirname + "/*.male*xml"), 50)
     shuffle(allPosts)
     for filepath in allPosts:
         #filename = "3776017.female.17.Student.Libra.xml"

@@ -31,13 +31,15 @@ for key in postsmap:
     postnum = randint(0, len(postsmap[key]) - 1)
     post = postsmap[key][postnum]
     numwords = len(post.split())
-    if(numwords < 100 or numwords > 600): continue
+    print "   Post# " + str(postnum) + "tot: " + str(len(postsmap[key]))
+    if(numwords < 100 or numwords > 600): 
+        print "Not generating"
+        continue
 #    for post in postsmap[key]:
     treebankFile = treebanks_dir + "/" +  key + "_" + str(postnum) + ".tb"
 
 #        if postnum  + 1 > MAX_POSTS:
 #            break
-    print "   Post# " + str(postnum)
     postnum = postnum + 1
     if  os.path.exists(treebankFile):
         continue
